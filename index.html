@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Omnist</title>
+<meta name="description" content="Omnist is a data-interchange format built around one idea: a document is an ordered list of labeled edges, not a map.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23fff1e5%22/></svg>">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #5a5a5a;
+    --accent: #3f51b5;
+    --border: #e2e2e2;
+    --card-bg: #fafafa;
+    --code-bg: #f2f2f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a;
+      --fg: #e8e8ea;
+      --muted: #a0a3ab;
+      --accent: #8c9eff;
+      --border: #2a2d33;
+      --card-bg: #1c1f24;
+      --code-bg: #22252b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 5rem;
+  }
+  .hero {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .hero img { width: 64px; height: 64px; }
+  h1 {
+    font-size: 2.4rem;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+  .tagline {
+    font-size: 1.15rem;
+    color: var(--muted);
+    margin: 0 0 2.5rem;
+  }
+  p { margin: 0 0 1.1rem; }
+  code {
+    background: var(--code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-size: 0.92em;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h2 {
+    margin-top: 3rem;
+    font-size: 1.4rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.25rem;
+    font-size: 0.95rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  th { color: var(--muted); font-weight: 600; }
+  .cta {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.7rem 1.3rem;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+  .cta:hover { text-decoration: none; opacity: 0.9; }
+  footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="hero">
+    <img src="logo.svg" alt="Omnist logo">
+    <h1>Omnist</h1>
+  </div>
+  <p class="tagline">A data-interchange format built around one idea: a document is an ordered list of labeled edges, not a map.</p>
+
+  <p>Most formats model an object as a map from key to value. That works fine until a format needs to express "many" without a wrapper, or interleave repeated elements with other data — the shape XML uses and JSON, YAML, and TOML can't natively carry. Omnist's Document model handles all of it the same way: a node is a list of <code>(label, value)</code> edges, in order, with no special case for arrays. Two <code>item</code> edges <em>are</em> the array. There is no separate list type to define.</p>
+
+  <p>A Schema is a graph of named, closed records constraining those edges. Because both models are small and closed, a set of operations over schemas — inclusion, equivalence, minimization, extraction, inference — are decidable and total, not best-effort.</p>
+
+  <p><a class="cta" href="https://spec.omnist.dev">Read the specification →</a></p>
+
+  <h2>Implementations</h2>
+  <p>Five official ports, all built against the specification.</p>
+  <table>
+    <thead>
+      <tr><th>Language</th><th>Version</th><th>Maturity</th><th>Docs</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><a href="https://github.com/omnist-dev/omnist">Python</a></td><td>0.7.12</td><td>beta, reference</td><td><a href="https://py.omnist.dev">py.omnist.dev</a></td></tr>
+      <tr><td><a href="https://github.com/omnist-dev/omnist-ts">TypeScript</a></td><td>0.0.4-alpha</td><td>alpha</td><td><a href="https://ts.omnist.dev">ts.omnist.dev</a></td></tr>
+      <tr><td><a href="https://github.com/omnist-dev/omnist-rs">Rust</a></td><td>0.0.1-alpha</td><td>alpha</td><td><a href="https://rs.omnist.dev">rs.omnist.dev</a></td></tr>
+      <tr><td><a href="https://github.com/omnist-dev/omnist-go">Go</a></td><td>0.1.0-alpha</td><td>alpha</td><td><a href="https://go.omnist.dev">go.omnist.dev</a></td></tr>
+      <tr><td><a href="https://github.com/omnist-dev/omnist-j">Java</a></td><td>0.0.2-alpha</td><td>alpha</td><td><a href="https://j.omnist.dev">j.omnist.dev</a></td></tr>
+    </tbody>
+  </table>
+
+  <footer>
+    <a href="https://github.com/omnist-dev">github.com/omnist-dev</a>
+  </footer>
+</main>
+</body>
+</html>
