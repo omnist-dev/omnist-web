@@ -31,7 +31,7 @@
 
 /* Omnist design tokens — same family as the Python port's own deck. */
 :root {
-  --color-bg: #f5ead8;
+  --color-bg: #fff1e5;
   --color-surface: #ebddc5;
   --color-text: #201e1d;
   --color-accent: #c67139;
@@ -142,7 +142,7 @@ html, body, .reveal-viewport { background: var(--color-bg); }
   <div class="slides">
 
     <!-- 1: title -->
-    <section data-background-color="#f5ead8" class="s-title">
+    <section data-background-color="#fff1e5" class="s-title">
       <img class="logo" src="logo.svg" alt="Omnist logo">
       <h1>Omnist</h1>
       <p class="tagline">One canonical schema and data model for JSON, YAML, TOML, XML — and its own native OML and OSD languages.</p>
@@ -150,7 +150,7 @@ html, body, .reveal-viewport { background: var(--color-bg); }
     </section>
 
     <!-- 2: contents -->
-    <section data-background-color="#f5ead8">
+    <section data-background-color="#fff1e5">
       <h2 style="text-align:center;">Contents</h2>
       <ol class="contents">
         <li><span class="text-muted">01</span> &nbsp;The problem</li>
@@ -167,7 +167,7 @@ html, body, .reveal-viewport { background: var(--color-bg); }
     </section>
 
     <!-- 4: one shape hidden -->
-    <section data-background-color="#f5ead8">
+    <section data-background-color="#fff1e5">
       <h2>One shape, hidden behind four formats</h2>
       <ul class="bullets">
         <li>JSON, YAML, TOML, and XML encode the same tree of data, but each ships its own parser, its own types, and its own edge cases — there's no shared model underneath.</li>
@@ -183,7 +183,7 @@ html, body, .reveal-viewport { background: var(--color-bg); }
     </section>
 
     <!-- 6: simple yet expressive -->
-    <section data-background-color="#f5ead8">
+    <section data-background-color="#fff1e5">
       <h2>A simple yet expressive formal model</h2>
       <div class="cols cols-3">
         <div class="col"><h3>Document</h3><p>A <b>tree</b> — an ordered list of labeled edges. An array is just a label that repeats, so the same Document represents JSON, YAML, TOML, XML, and OML.</p></div>
@@ -193,7 +193,7 @@ html, body, .reveal-viewport { background: var(--color-bg); }
     </section>
 
     <!-- 7: OML tree diagram -->
-    <section data-background-color="#f5ead8">
+    <section data-background-color="#fff1e5">
       <h2>OML — a document is a tree</h2>
       <div class="cols cols-2">
         <pre class="codeblock">host: <span class="str">"api.internal"</span>
@@ -230,7 +230,7 @@ graph LR
     </section>
 
     <!-- 8: format comparison -->
-    <section data-background-color="#f5ead8">
+    <section data-background-color="#fff1e5">
       <h2>The same document, in JSON, YAML, TOML, XML</h2>
       <div class="format-grid">
         <div class="format-panel"><h3>JSON</h3><pre>{
@@ -286,7 +286,7 @@ port = 5433</pre></div>
     </section>
 
     <!-- 9: OSD automaton diagram -->
-    <section data-background-color="#f5ead8">
+    <section data-background-color="#fff1e5">
       <h2>OSD — a schema is an automaton</h2>
       <div class="cols cols-2">
         <pre class="codeblock"><span class="kw">record</span> Database {
@@ -316,7 +316,7 @@ graph LR
     </section>
 
     <!-- 10: schema algebra, abstract signatures -->
-    <section data-background-color="#f5ead8">
+    <section data-background-color="#fff1e5">
       <h2>Schema algebra — the operations</h2>
       <pre class="tour-code">compatible_with(A, B) -> bool   <span class="com"># can readers of B still read A's documents?</span>
 equivalent(A, B) -> bool        <span class="com"># same documents, different shape?</span>
@@ -328,7 +328,7 @@ prune(S) -> Schema              <span class="com"># drop unreachable / unsatisfi
     </section>
 
     <!-- 11: validating a document -->
-    <section data-background-color="#f5ead8">
+    <section data-background-color="#fff1e5">
       <h2>Validating a document against a schema</h2>
       <div class="cols cols-2">
         <div>
@@ -360,7 +360,7 @@ tags: <span class="str">"us-east"</span></pre>
     </section>
 
     <!-- 13: genuinely hard -->
-    <section data-background-color="#f5ead8">
+    <section data-background-color="#fff1e5">
       <h2>Genuinely hard, made decidable</h2>
       <div class="card-grid">
         <div class="feature-card a"><h4>Gate schema changes in CI</h4><p><code>compatible_with</code> answers "does every old document still validate?" with a proven yes or no.</p></div>
@@ -371,7 +371,7 @@ tags: <span class="str">"us-east"</span></pre>
     </section>
 
     <!-- 14: why omnist -->
-    <section data-background-color="#f5ead8">
+    <section data-background-color="#fff1e5">
       <h2>Why Omnist, and not a heuristic</h2>
       <ul class="bullets">
         <li><b>Records are closed by default</b>, and scalar types are never composed into enums or unions — the one deliberate opening is an explicitly marked <code>any</code>.</li>
@@ -387,7 +387,7 @@ tags: <span class="str">"us-east"</span></pre>
     </section>
 
     <!-- 16: checked not asserted -->
-    <section data-background-color="#f5ead8">
+    <section data-background-color="#fff1e5">
       <h2>Checked, not asserted</h2>
       <ul class="bullets">
         <li>A <b>two-track conformance harness</b> — structural fixtures plus a JSON test-vector suite — that every port runs against the same <code>omnist-spec</code> pin.</li>
@@ -403,7 +403,7 @@ tags: <span class="str">"us-east"</span></pre>
     </section>
 
     <!-- 18: one spec, five ports -->
-    <section data-background-color="#f5ead8" class="s-title">
+    <section data-background-color="#fff1e5" class="s-title">
       <h2>One spec, five independent implementations</h2>
       <p class="tagline" style="font-size:0.85em;">Each port is built spec-first against the same conformance suite — not a translation of another port's code.</p>
       <table class="ports">
