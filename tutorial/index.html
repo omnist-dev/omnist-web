@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overview — Omnist Tutorial</title>
+<meta name="description" content="A hands-on, verified-code tutorial covering every model and feature of Omnist, using the Python port.">
+<meta property="og:title" content="Overview — Omnist Tutorial">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://omnist.dev/tutorial/">
+<link rel="icon" type="image/svg+xml" href="../logo.svg">
+<style>
+:root {
+  --bg: #ffffff; --fg: #1a1a1a; --muted: #5a5a5a; --accent: #3f51b5;
+  --border: #e2e2e2; --card-bg: #fafafa; --code-bg: #f2f2f5;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #14161a; --fg: #e8e8ea; --muted: #a0a3ab; --accent: #8c9eff; --border: #2a2d33; --card-bg: #1c1f24; --code-bg: #22252b; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; }
+header.site { display: flex; align-items: center; gap: 0.6rem; padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border); }
+header.site img { width: 32px; height: 32px; }
+header.site a.home { color: var(--fg); text-decoration: none; font-weight: 700; font-size: 1.1rem; }
+header.site .step-count { margin-left: auto; color: var(--muted); font-size: 0.9rem; }
+main { max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+h1 { font-size: 2rem; margin: 0 0 0.3rem; letter-spacing: -0.01em; }
+.description { color: var(--muted); font-size: 1.05rem; margin: 0 0 2rem; }
+p { margin: 0 0 1.1rem; }
+code { background: var(--code-bg); padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.92em; font-family: "SFMono-Regular", Consolas, monospace; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+pre.code, pre.output { background: var(--code-bg); border-radius: 8px; padding: 0.9rem 1rem; overflow-x: auto; font-size: 0.88rem; margin: 0 0 1.3rem; }
+pre.code code, pre.output code { background: none; padding: 0; font-size: inherit; }
+.output-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin: -0.6rem 0 0.4rem; }
+.mermaid { display: flex; justify-content: center; margin: 1.5rem 0; background: var(--card-bg); border-radius: 8px; padding: 1rem; }
+table.cmdtable { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.92rem; }
+table.cmdtable th, table.cmdtable td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--border); }
+table.cmdtable th { color: var(--muted); font-weight: 600; }
+.learn-more { margin-top: 2rem; padding-top: 1.2rem; border-top: 1px solid var(--border); }
+.learn-more h3 { font-size: 0.95rem; color: var(--muted); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.learn-more ul { margin: 0; padding-left: 1.2rem; }
+nav.steps { display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.95rem; }
+nav.steps a { font-weight: 600; }
+nav.steps .placeholder { color: var(--border); }
+.index-list { list-style: none; padding: 0; margin: 1.5rem 0; }
+.index-list li { border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1.1rem; margin-bottom: 0.7rem; }
+.index-list a { font-weight: 700; font-size: 1.05rem; }
+.index-list .n { color: var(--muted); font-weight: 400; margin-right: 0.4rem; }
+.index-list p { margin: 0.3rem 0 0; color: var(--muted); font-size: 0.92rem; }
+</style>
+</head>
+<body>
+<header class="site">
+  <img src="../logo.svg" alt="Omnist logo">
+  <a class="home" href="../index.html">Omnist</a>
+  <a href="index.html" style="margin-left:1rem;">Tutorial</a>
+  <span class="step-count">Tutorial overview</span>
+</header>
+<main>
+<h1>Omnist Tutorial</h1><p class="description">A hands-on, verified-code walkthrough of every model and feature, using the Python port. Every example on every page was actually run against the real library — the output shown is real output, not typed by hand.</p><ul class="index-list"><li><a href="01-setup.html"><span class="n">01</span>Setup</a><p>Install the Python port and import what you need.</p></li><li><a href="02-documents.html"><span class="n">02</span>The Document model</a><p>Build, navigate, and mutate a Document — the one tree every format reads into.</p></li><li><a href="03-oml.html"><span class="n">03</span>OML — the native format</a><p>Omnist's own text syntax for the Document model.</p></li><li><a href="04-osd.html"><span class="n">04</span>OSD — schema syntax</a><p>Named records, cardinality, and the three kinds of field a schema can declare.</p></li><li><a href="05-schema-builder.html"><span class="n">05</span>Building and reading a schema in Python</a><p>Construct a Schema from Python instead of OSD text — and inspect one already in hand.</p></li><li><a href="06-validation.html"><span class="n">06</span>Validation</a><p>Check whether a Document conforms to a Schema, and read the real diagnostics.</p></li><li><a href="07-materialization.html"><span class="n">07</span>Materialization</a><p>Upgrade untyped leaves (a JSON string) to the type a schema declares.</p></li><li><a href="08-other-formats.html"><span class="n">08</span>Reading and writing JSON, YAML, TOML, XML</a><p>The other four codecs — and what happens when a value doesn't fit.</p></li><li><a href="09-schema-algebra.html"><span class="n">09</span>Schema algebra</a><p>Six decidable operations over schemas — comparison, minimization, extraction.</p></li><li><a href="10-inferring.html"><span class="n">10</span>Inferring a schema</a><p>Draft a schema from example documents instead of writing one by hand.</p></li><li><a href="11-custom-formats.html"><span class="n">11</span>Custom formats</a><p>Register your own format plugin — usable everywhere Doc reads and writes by name.</p></li><li><a href="12-real-life-example.html"><span class="n">12</span>A real-life example</a><p>Named records, a required array, an optional field, and recursion-free reuse — built once, validated across formats.</p></li><li><a href="13-cli.html"><span class="n">13</span>The command line</a><p>Every operation above, without writing any code.</p></li><li><a href="14-next-steps.html"><span class="n">14</span>Next steps</a><p>Where to go from here.</p></li></ul>
+<nav class="steps">
+  <span class="placeholder">&larr;</span>
+  <a href="01-setup.html">Setup &rarr;</a>
+</nav>
+</main>
+<!-- mermaid.js (MIT) -- vendored, no CDN. See ../assets/reveal/LICENSE for the same-license note. -->
+<script src="../assets/mermaid.min.js"></script>
+<script>
+if (document.querySelector('.mermaid')) {
+  mermaid.initialize({
+    startOnLoad: false, theme: 'base',
+    themeVariables: { primaryColor: '#f9f4ed', primaryBorderColor: '#645c50', primaryTextColor: '#201e1d', lineColor: '#645c50', fontFamily: 'inherit' }
+  });
+  document.querySelectorAll('pre.mermaid').forEach(async function (el, i) {
+    try {
+      var out = await mermaid.render('mmd-' + i, el.textContent.trim());
+      el.innerHTML = out.svg;
+    } catch (e) { console.error('mermaid render failed', e); }
+  });
+}
+</script>
+</body>
+</html>

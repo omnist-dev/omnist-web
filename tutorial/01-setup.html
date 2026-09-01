@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Setup — Omnist Tutorial</title>
+<meta name="description" content="A hands-on, verified-code tutorial covering every model and feature of Omnist, using the Python port.">
+<meta property="og:title" content="Setup — Omnist Tutorial">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://omnist.dev/tutorial/">
+<link rel="icon" type="image/svg+xml" href="../logo.svg">
+<style>
+:root {
+  --bg: #ffffff; --fg: #1a1a1a; --muted: #5a5a5a; --accent: #3f51b5;
+  --border: #e2e2e2; --card-bg: #fafafa; --code-bg: #f2f2f5;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #14161a; --fg: #e8e8ea; --muted: #a0a3ab; --accent: #8c9eff; --border: #2a2d33; --card-bg: #1c1f24; --code-bg: #22252b; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; }
+header.site { display: flex; align-items: center; gap: 0.6rem; padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border); }
+header.site img { width: 32px; height: 32px; }
+header.site a.home { color: var(--fg); text-decoration: none; font-weight: 700; font-size: 1.1rem; }
+header.site .step-count { margin-left: auto; color: var(--muted); font-size: 0.9rem; }
+main { max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+h1 { font-size: 2rem; margin: 0 0 0.3rem; letter-spacing: -0.01em; }
+.description { color: var(--muted); font-size: 1.05rem; margin: 0 0 2rem; }
+p { margin: 0 0 1.1rem; }
+code { background: var(--code-bg); padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.92em; font-family: "SFMono-Regular", Consolas, monospace; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+pre.code, pre.output { background: var(--code-bg); border-radius: 8px; padding: 0.9rem 1rem; overflow-x: auto; font-size: 0.88rem; margin: 0 0 1.3rem; }
+pre.code code, pre.output code { background: none; padding: 0; font-size: inherit; }
+.output-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin: -0.6rem 0 0.4rem; }
+.mermaid { display: flex; justify-content: center; margin: 1.5rem 0; background: var(--card-bg); border-radius: 8px; padding: 1rem; }
+table.cmdtable { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.92rem; }
+table.cmdtable th, table.cmdtable td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--border); }
+table.cmdtable th { color: var(--muted); font-weight: 600; }
+.learn-more { margin-top: 2rem; padding-top: 1.2rem; border-top: 1px solid var(--border); }
+.learn-more h3 { font-size: 0.95rem; color: var(--muted); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.learn-more ul { margin: 0; padding-left: 1.2rem; }
+nav.steps { display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.95rem; }
+nav.steps a { font-weight: 600; }
+nav.steps .placeholder { color: var(--border); }
+.index-list { list-style: none; padding: 0; margin: 1.5rem 0; }
+.index-list li { border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1.1rem; margin-bottom: 0.7rem; }
+.index-list a { font-weight: 700; font-size: 1.05rem; }
+.index-list .n { color: var(--muted); font-weight: 400; margin-right: 0.4rem; }
+.index-list p { margin: 0.3rem 0 0; color: var(--muted); font-size: 0.92rem; }
+</style>
+</head>
+<body>
+<header class="site">
+  <img src="../logo.svg" alt="Omnist logo">
+  <a class="home" href="../index.html">Omnist</a>
+  <a href="index.html" style="margin-left:1rem;">Tutorial</a>
+  <span class="step-count">Step 1 of 14</span>
+</header>
+<main>
+<h1>Setup</h1><p class="description">Install the Python port and import what you need.</p><p>This tutorial uses <b>Python</b> — one of five independent language ports of Omnist, all built against the same <a href="https://spec.omnist.dev">specification</a>. Everything here — the Document model, the schema algebra, the operations — exists the same way in the other four; only the surface syntax changes.</p><p>Install the package:</p><pre class="code"><code>pip install omnist          # core + JSON
+pip install omnist[all]     # + pyyaml, tomli_w, defusedxml</code></pre><p>Then import what you need as you go — this tutorial imports a few new names in each step, shown at the top of that step's first example.</p><div class="learn-more"><h3>Learn more</h3><ul><li><a href="https://py.omnist.dev">py.omnist.dev — full Python docs</a></li><li><a href="https://spec.omnist.dev">spec.omnist.dev — the language-agnostic specification</a></li></ul></div>
+<nav class="steps">
+  <a href="index.html">&larr; Overview</a>
+  <a href="02-documents.html">The Document model &rarr;</a>
+</nav>
+</main>
+<!-- mermaid.js (MIT) -- vendored, no CDN. See ../assets/reveal/LICENSE for the same-license note. -->
+<script src="../assets/mermaid.min.js"></script>
+<script>
+if (document.querySelector('.mermaid')) {
+  mermaid.initialize({
+    startOnLoad: false, theme: 'base',
+    themeVariables: { primaryColor: '#f9f4ed', primaryBorderColor: '#645c50', primaryTextColor: '#201e1d', lineColor: '#645c50', fontFamily: 'inherit' }
+  });
+  document.querySelectorAll('pre.mermaid').forEach(async function (el, i) {
+    try {
+      var out = await mermaid.render('mmd-' + i, el.textContent.trim());
+      el.innerHTML = out.svg;
+    } catch (e) { console.error('mermaid render failed', e); }
+  });
+}
+</script>
+</body>
+</html>
