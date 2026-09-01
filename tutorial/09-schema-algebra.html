@@ -55,7 +55,7 @@ nav.steps .placeholder { color: var(--border); }
   <img src="../logo.svg" alt="Omnist logo">
   <a class="home" href="../index.html">Omnist</a>
   <a href="index.html" style="margin-left:1rem;">Tutorial</a>
-  <span class="step-count">Step 9 of 14</span>
+  <span class="step-count">Step 10 of 15</span>
 </header>
 <main>
 <h1>Schema algebra</h1><p class="description">Six decidable operations over schemas — comparison, minimization, extraction.</p><p>Most schema tools check one document at a time. Omnist's algebra <b>compares two whole schemas</b> and proves the answer — decidable because a schema is a closed automaton, not a heuristic over examples.</p><p><b>Why <code>compatible_with</code> matters:</b> you're about to ship a schema change. Will every document ever written under the old schema still validate against the new one? That's not a question you want a reviewer guessing at — it's exactly what a CI gate can prove before merging:</p><pre class="code"><code>v1 = parse_schema(&#x27;record R { &quot;host&quot;: string }\nroot R&#x27;)

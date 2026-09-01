@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Validation — Omnist Tutorial</title>
+<title>Why Omnist — Omnist Tutorial</title>
 <meta name="description" content="A hands-on, verified-code tutorial covering every model and feature of Omnist, using the Python port.">
-<meta property="og:title" content="Validation — Omnist Tutorial">
+<meta property="og:title" content="Why Omnist — Omnist Tutorial">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://omnist.dev/tutorial/">
 <link rel="icon" type="image/svg+xml" href="../logo.svg">
@@ -55,20 +55,13 @@ nav.steps .placeholder { color: var(--border); }
   <img src="../logo.svg" alt="Omnist logo">
   <a class="home" href="../index.html">Omnist</a>
   <a href="index.html" style="margin-left:1rem;">Tutorial</a>
-  <span class="step-count">Step 7 of 15</span>
+  <span class="step-count">Step 1 of 15</span>
 </header>
 <main>
-<h1>Validation</h1><p class="description">Check whether a Document conforms to a Schema, and read the real diagnostics.</p><p><code>schema.validate(doc)</code> returns a <code>ValidationResult</code> with <code>.ok</code> and <code>.errors</code> — validation ignores edge order entirely, since a schema describes a set of possible documents, not a sequence.</p><pre class="code"><code>from omnist import parse_schema, doc
-
-s = parse_schema(&#x27;record R { &quot;items&quot; [1,]: integer }\nroot R&#x27;)
-r = s.validate(doc({&quot;items&quot;: []}))
-r.ok
-print(r)</code></pre><div class="output-label">Output</div><pre class="output"><code>ok: False
-invalid:
-  at $: field &#x27;items&#x27; occurs 0 time(s), expected at least 1</code></pre><p>Each <code>Error</code> carries a <code>.path</code>, a human-readable <code>.message</code>, and a stable, machine-readable <code>.code</code> (here, <code>validate.cardinality</code>) — the code is what you'd branch on in real code; the message is for a human reading logs.</p><div class="learn-more"><h3>Learn more</h3><ul><li><a href="https://spec.omnist.dev/03-schema-model/#36-validation">spec.omnist.dev — §3.6 Validation</a></li><li><a href="https://py.omnist.dev/guide/#validation">py.omnist.dev — Validation</a></li></ul></div>
+<h1>Why Omnist</h1><p class="description">The problem this exists to solve, and what it makes possible.</p><p>JSON, YAML, TOML, and XML all encode the same kind of tree-shaped data — but each ships its own parser, its own types, and its own edge cases. There's no shared model underneath, so converting between them, validating one against a shared shape, or safely evolving that shape over time all end up hand-rolled and unchecked.</p><p>Omnist exists to close three gaps specifically:</p><ul class="bullets"><li><b>One model, many formats.</b> Read JSON, YAML, TOML, XML, or Omnist's own OML into the same tree, validate it against one schema, write it back out to any of the others — a genuine <i>read one, write another</i>, not a lossy best-effort conversion.</li><li><b>Schema evolution you can prove, not guess at.</b> "Will every document written under the old schema still validate under the new one?" is a question <code>compatible_with</code> answers with a proven yes or no — the kind of check a CI gate runs before a schema change merges, not something a reviewer eyeballs.</li><li><b>Operations that work on the whole schema, not one document at a time.</b> Trimming a schema down to what one service actually uses, or drafting one from real examples instead of writing it by hand, are both single decidable operations here — <code>extract</code> and <code>infer</code> — not scripts you'd have to write yourself.</li></ul><p>The reason all of this is <i>decidable</i> — provably correct, not a heuristic that mostly works — is a deliberate constraint: records are closed by default, and scalar types are never composed into enums or unions. The one deliberate opening is an explicitly marked <code>any</code>. That discipline is what the rest of this tutorial actually demonstrates, one operation at a time.</p><p>This tutorial uses <b>Python</b> — one of five independent language ports, all built against the same <a href="https://spec.omnist.dev">specification</a>. Everything from here on exists the same way in the other four; only the surface syntax changes.</p><div class="learn-more"><h3>Learn more</h3><ul><li><a href="https://omnist.dev/presentation.html">omnist.dev/presentation.html — the introduction slides</a></li><li><a href="https://spec.omnist.dev">spec.omnist.dev — the specification</a></li></ul></div>
 <nav class="steps">
-  <a href="05-schema-builder.html">&larr; Building and reading a schema in Python</a>
-  <a href="07-materialization.html">Materialization &rarr;</a>
+  <a href="index.html">&larr; Overview</a>
+  <a href="01-setup.html">Setup &rarr;</a>
 </nav>
 </main>
 <!-- mermaid.js (MIT) -- vendored, no CDN. See ../assets/reveal/LICENSE for the same-license note. -->

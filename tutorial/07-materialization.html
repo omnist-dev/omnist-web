@@ -55,7 +55,7 @@ nav.steps .placeholder { color: var(--border); }
   <img src="../logo.svg" alt="Omnist logo">
   <a class="home" href="../index.html">Omnist</a>
   <a href="index.html" style="margin-left:1rem;">Tutorial</a>
-  <span class="step-count">Step 7 of 14</span>
+  <span class="step-count">Step 8 of 15</span>
 </header>
 <main>
 <h1>Materialization</h1><p class="description">Upgrade untyped leaves (a JSON string) to the type a schema declares.</p><p>Without a schema, a reader's leaves are exactly whatever the format's own native parser produces — JSON has no date type, so a date always comes back as a plain string. Pass <code>schema=</code> to a reader to <b>upgrade</b> leaves to match what the schema declares, whenever the conversion is value-exact:</p><pre class="code"><code>from omnist import parse_schema, Doc

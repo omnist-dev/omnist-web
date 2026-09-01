@@ -30,6 +30,22 @@ def step(slug, title, description, body):
 
 # ---------------------------------------------------------------------------
 
+step("00-why-omnist", "Why Omnist", "The problem this exists to solve, and what it makes possible.", "".join([
+    p("JSON, YAML, TOML, and XML all encode the same kind of tree-shaped data — but each ships its own parser, its own types, and its own edge cases. There's no shared model underneath, so converting between them, validating one against a shared shape, or safely evolving that shape over time all end up hand-rolled and unchecked."),
+    p("Omnist exists to close three gaps specifically:"),
+    '<ul class="bullets"><li><b>One model, many formats.</b> Read JSON, YAML, TOML, XML, or Omnist\'s own OML into the same tree, validate it against one schema, write it back out to any of the others — a genuine <i>read one, write another</i>, not a lossy best-effort conversion.</li>'
+    '<li><b>Schema evolution you can prove, not guess at.</b> "Will every document written under the old schema still validate under the new one?" is a question <code>compatible_with</code> answers with a proven yes or no — the kind of check a CI gate runs before a schema change merges, not something a reviewer eyeballs.</li>'
+    '<li><b>Operations that work on the whole schema, not one document at a time.</b> Trimming a schema down to what one service actually uses, or drafting one from real examples instead of writing it by hand, are both single decidable operations here — <code>extract</code> and <code>infer</code> — not scripts you'
+    "'"
+    'd have to write yourself.</li></ul>',
+    p("The reason all of this is <i>decidable</i> — provably correct, not a heuristic that mostly works — is a deliberate constraint: records are closed by default, and scalar types are never composed into enums or unions. The one deliberate opening is an explicitly marked <code>any</code>. That discipline is what the rest of this tutorial actually demonstrates, one operation at a time."),
+    p("This tutorial uses <b>Python</b> — one of five independent language ports, all built against the same <a href=\"https://spec.omnist.dev\">specification</a>. Everything from here on exists the same way in the other four; only the surface syntax changes."),
+    learn_more(
+        ("omnist.dev/presentation.html — the introduction slides", "https://omnist.dev/presentation.html"),
+        ("spec.omnist.dev — the specification", "https://spec.omnist.dev"),
+    ),
+]))
+
 step("01-setup", "Setup", "Install the Python port and import what you need.", "".join([
     p("This tutorial uses <b>Python</b> — one of five independent language ports of Omnist, all built against the same <a href=\"https://spec.omnist.dev\">specification</a>. Everything here — the Document model, the schema algebra, the operations — exists the same way in the other four; only the surface syntax changes."),
     p("Install the package:"),

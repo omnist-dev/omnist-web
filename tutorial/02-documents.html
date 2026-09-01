@@ -55,7 +55,7 @@ nav.steps .placeholder { color: var(--border); }
   <img src="../logo.svg" alt="Omnist logo">
   <a class="home" href="../index.html">Omnist</a>
   <a href="index.html" style="margin-left:1rem;">Tutorial</a>
-  <span class="step-count">Step 2 of 14</span>
+  <span class="step-count">Step 3 of 15</span>
 </header>
 <main>
 <h1>The Document model</h1><p class="description">Build, navigate, and mutate a Document — the one tree every format reads into.</p><p>A <b>Document</b> is a tree: an ordered list of labeled edges. There is no separate array type — a label that repeats <i>is</i> the array. This one idea is why JSON, YAML, TOML, XML, and Omnist's own OML format can all be read into (and written back out from) the exact same structure.</p><p><code>doc(value)</code> builds a Document from plain Python — a dict becomes an edge list, and a key whose value is a list expands into one edge per item:</p><pre class="code"><code>from omnist import doc
