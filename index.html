@@ -5,7 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Omnist</title>
 <meta name="description" content="Omnist is a data-interchange format built around one idea: a document is an ordered list of labeled edges, not a map.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23fff1e5%22/></svg>">
+<meta property="og:title" content="Omnist">
+<meta property="og:description" content="One canonical schema and data model for JSON, YAML, TOML, XML — and its own native OML and OSD languages. Five independent language ports, one spec.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://omnist.dev">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Omnist">
+<meta name="twitter:description" content="One canonical schema and data model for JSON, YAML, TOML, XML — and its own native OML and OSD languages. Five independent language ports, one spec.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
 <style>
   :root {
     --bg: #ffffff;
@@ -87,6 +94,7 @@
   .cta {
     display: inline-block;
     margin-top: 0.5rem;
+    margin-right: 0.6rem;
     padding: 0.7rem 1.3rem;
     background: var(--accent);
     color: #fff;
@@ -94,6 +102,11 @@
     font-weight: 600;
   }
   .cta:hover { text-decoration: none; opacity: 0.9; }
+  .cta-secondary {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
   footer {
     margin-top: 4rem;
     padding-top: 1.5rem;
@@ -115,7 +128,13 @@
 
   <p>A Schema is a graph of named, closed records constraining those edges. Because both models are small and closed, a set of operations over schemas — inclusion, equivalence, minimization, extraction, inference — are decidable and total, not best-effort.</p>
 
-  <p><a class="cta" href="https://spec.omnist.dev">Read the specification →</a></p>
+  <p>
+    <a class="cta" href="https://spec.omnist.dev">Read the specification →</a>
+    <a class="cta cta-secondary" href="presentation.html">View the introduction slides →</a>
+  </p>
+
+  <h2>Boringly correct</h2>
+  <p>Every port runs the same two-track conformance harness — structural fixtures and a JSON test-vector suite — against the same specification pin, backed by formal ABNF grammars for OML and OSD verified against each port's own parser. The schema algebra itself is cross-checked three independent ways against the same test cases, so no single method's blind spot can hide a bug.</p>
 
   <h2>Implementations</h2>
   <p>Five official ports, all built against the specification.</p>
