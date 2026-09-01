@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Omnist</title>
-<meta name="description" content="Omnist is a data-interchange format built around one idea: a document is an ordered list of labeled edges, not a map.">
+<meta name="description" content="Omnist is a data-interchange format with a decidable schema algebra — proving schema changes are safe instead of guessing, across JSON, YAML, TOML, and XML.">
 <meta property="og:title" content="Omnist">
-<meta property="og:description" content="One canonical schema and data model for JSON, YAML, TOML, XML — and its own native OML and OSD languages. Five independent language ports, one spec.">
+<meta property="og:description" content="One canonical schema and data model for JSON, YAML, TOML, XML — with a decidable schema algebra that proves schema changes are safe instead of guessing. Five independent language ports, one spec.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://omnist.dev">
 <meta property="og:image" content="https://omnist.dev/images/og-presentation.png">
@@ -14,7 +14,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Omnist">
-<meta name="twitter:description" content="One canonical schema and data model for JSON, YAML, TOML, XML — and its own native OML and OSD languages. Five independent language ports, one spec.">
+<meta name="twitter:description" content="One canonical schema and data model for JSON, YAML, TOML, XML — with a decidable schema algebra that proves schema changes are safe instead of guessing. Five independent language ports, one spec.">
 <meta name="twitter:image" content="https://omnist.dev/images/og-presentation.png">
 <link rel="icon" type="image/svg+xml" href="logo.svg">
 <style>
@@ -126,7 +126,7 @@
     <img src="logo.svg" alt="Omnist logo">
     <h1>Omnist</h1>
   </div>
-  <p class="tagline">A data-interchange format built around one idea: a document is an ordered list of labeled edges, not a map.</p>
+  <p class="tagline">A data-interchange format built around one idea: a document is an ordered list of labeled edges, not a map. Its schema algebra proves compatibility and equivalence between schemas — a decidable guarantee, not a heuristic.</p>
 
   <p>Most formats model an object as a map from key to value. That works fine until a format needs to express "many" without a wrapper, or interleave repeated elements with other data — the shape XML uses and JSON, YAML, and TOML can't natively carry. Omnist's Document model handles all of it the same way: a node is a list of <code>(label, value)</code> edges, in order, with no special case for arrays. Two <code>item</code> edges <em>are</em> the array. There is no separate list type to define.</p>
 
