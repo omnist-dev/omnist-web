@@ -307,20 +307,31 @@ nav.steps .placeholder { color: var(--border); }
 def render_body_parts(parts):
     return "".join(x if isinstance(x, str) and x.startswith("<") else x for x in parts)
 
-def page_shell(title, step_no, body_inner, prev_link, next_link):
+def page_shell(title, description, page_url, step_no, body_inner, prev_link, next_link):
     step_count_html = f'<span class="step-count">Step {step_no} of {len(STEPS)}</span>' if step_no else '<span class="step-count">Tutorial overview</span>'
     prev_html = f'<a href="{prev_link[0]}">&larr; {prev_link[1]}</a>' if prev_link else '<span class="placeholder">&larr;</span>'
     next_html = f'<a href="{next_link[0]}">{next_link[1]} &rarr;</a>' if next_link else '<span class="placeholder">&rarr;</span>'
+    full_title = f"{html.escape(title)} — Omnist Tutorial"
+    desc = html.escape(description)
+    og_image = f"{SITE}/images/og-presentation.png"
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{html.escape(title)} — Omnist Tutorial</title>
-<meta name="description" content="A hands-on, verified-code tutorial covering every model and feature of Omnist, using the Python port.">
-<meta property="og:title" content="{html.escape(title)} — Omnist Tutorial">
+<title>{full_title}</title>
+<meta name="description" content="{desc}">
+<meta property="og:title" content="{full_title}">
+<meta property="og:description" content="{desc}">
 <meta property="og:type" content="website">
-<meta property="og:url" content="{SITE}/tutorial/">
+<meta property="og:url" content="{SITE}/tutorial/{page_url}">
+<meta property="og:image" content="{og_image}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{full_title}">
+<meta name="twitter:description" content="{desc}">
+<meta name="twitter:image" content="{og_image}">
 <link rel="icon" type="image/svg+xml" href="../logo.svg">
 <style>{CSS}</style>
 </head>
@@ -371,8 +382,9 @@ def build():
         "Every example on every page was actually run against the real library — the output shown is real output, not typed by hand.</p>"
         f'<ul class="index-list">{"".join(items)}</ul>'
     )
+    index_description = "A hands-on, verified-code tutorial covering every model and feature of Omnist, using the Python port."
     with open(os.path.join(OUT_DIR, "index.html"), "w", encoding="utf-8") as f:
-        f.write(page_shell("Overview", 0, index_body, None, (STEPS[0]["slug"] + ".html", STEPS[0]["title"])))
+        f.write(page_shell("Overview", index_description, "index.html", 0, index_body, None, (STEPS[0]["slug"] + ".html", STEPS[0]["title"])))
 
     # step pages
     for i, s in enumerate(STEPS):
@@ -380,8 +392,9 @@ def build():
         prev_link = (STEPS[i-1]["slug"] + ".html", STEPS[i-1]["title"]) if i > 0 else ("index.html", "Overview")
         next_link = (STEPS[i+1]["slug"] + ".html", STEPS[i+1]["title"]) if i < len(STEPS) - 1 else None
         body_inner = f'<h1>{html.escape(s["title"])}</h1><p class="description">{s["description"]}</p>{s["body"]}'
-        with open(os.path.join(OUT_DIR, s["slug"] + ".html"), "w", encoding="utf-8") as f:
-            f.write(page_shell(s["title"], step_no, body_inner, prev_link, next_link))
+        page_url = s["slug"] + ".html"
+        with open(os.path.join(OUT_DIR, page_url), "w", encoding="utf-8") as f:
+            f.write(page_shell(s["title"], s["description"], page_url, step_no, body_inner, prev_link, next_link))
 
     print(f"Wrote {len(STEPS) + 1} files to {OUT_DIR}")
 
