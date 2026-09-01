@@ -236,7 +236,7 @@ step("14-next-steps", "Next steps", "Where to go from here.", "".join([
 
 CSS = """
 :root {
-  --bg: #ffffff; --fg: #1a1a1a; --muted: #5a5a5a; --accent: #3f51b5;
+  --bg: #fff1e5; --fg: #1a1a1a; --muted: #5a5a5a; --accent: #3f51b5;
   --border: #e2e2e2; --card-bg: #fafafa; --code-bg: #f2f2f5;
 }
 @media (prefers-color-scheme: dark) {
