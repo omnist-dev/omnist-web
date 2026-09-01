@@ -58,21 +58,33 @@ nav.steps .placeholder { color: var(--border); }
   <span class="step-count">Step 9 of 14</span>
 </header>
 <main>
-<h1>Schema algebra</h1><p class="description">Six decidable operations over schemas — comparison, minimization, extraction.</p><p>Most schema tools check one document at a time. Omnist's algebra <b>compares two whole schemas</b> and proves the answer — decidable because a schema is a closed automaton, not a heuristic over examples.</p><pre class="code"><code>v1 = parse_schema(&#x27;record R { &quot;host&quot;: string }\nroot R&#x27;)
+<h1>Schema algebra</h1><p class="description">Six decidable operations over schemas — comparison, minimization, extraction.</p><p>Most schema tools check one document at a time. Omnist's algebra <b>compares two whole schemas</b> and proves the answer — decidable because a schema is a closed automaton, not a heuristic over examples.</p><p><b>Why <code>compatible_with</code> matters:</b> you're about to ship a schema change. Will every document ever written under the old schema still validate against the new one? That's not a question you want a reviewer guessing at — it's exactly what a CI gate can prove before merging:</p><pre class="code"><code>v1 = parse_schema(&#x27;record R { &quot;host&quot;: string }\nroot R&#x27;)
 v2 = parse_schema(&#x27;record R { &quot;host&quot;: string, &quot;port&quot; [0,1]: integer }\nroot R&#x27;)
 
 v1.compatible_with(v2)     # can readers of v2 still read v1&#x27;s documents?
-v2.compatible_with(v1)     # the reverse -- v1 has no &#x27;port&#x27; field to require
-v1.equivalent(v2)          # same documents, different shape?
-v1.normalize()             # canonical minimal form</code></pre><div class="output-label">Output</div><pre class="output"><code>v1.compatible_with(v2): True
-v2.compatible_with(v1): False
-v1.equivalent(v2):      False</code></pre><p><code>extract(*labels)</code> computes the minimal subschema recognizing only documents built from the kept labels — dropping any field whose label isn't kept, and anything its removal makes unreachable. Deleting a <i>mandatory</i> field is an error, not silently allowed:</p><pre class="code"><code>v2.extract(&quot;host&quot;)   # subschema with only &quot;host&quot; -- &quot;port&quot; dropped</code></pre><div class="output-label">Output</div><pre class="output"><code>record R {
+v2.compatible_with(v1)     # the reverse -- v1 has no &#x27;port&#x27; field to require</code></pre><div class="output-label">Output</div><pre class="output"><code>v1.compatible_with(v2): True   -- adding an optional field is backward compatible
+v2.compatible_with(v1): False  -- v1 can&#x27;t produce the &#x27;port&#x27; field v2 might require</code></pre><p><b>Why <code>equivalent</code> matters:</b> two schemas can describe the exact same set of documents while looking structurally nothing alike — different record names, different nesting, the same shape underneath. That happens constantly: two teams independently modeling the same data, or a refactor that reorganizes records without changing what they accept. <code>equivalent</code> answers "did anything actually change?" without a human eyeballing a diff:</p><pre class="code"><code>a = parse_schema(&#x27;record Left  { &quot;x&quot;: string, &quot;y&quot;: integer }\n&#x27;
+                  &#x27;record Right { &quot;x&quot;: string, &quot;y&quot;: integer }\n&#x27;
+                  &#x27;record Root  { &quot;a&quot;: Left, &quot;b&quot;: Right }\nroot Root&#x27;)
+b = parse_schema(&#x27;record Pair { &quot;x&quot;: string, &quot;y&quot;: integer }\n&#x27;
+                  &#x27;record Root { &quot;a&quot;: Pair, &quot;b&quot;: Pair }\nroot Root&#x27;)
+
+a.equivalent(b)</code></pre><div class="output-label">Output</div><pre class="output"><code>True   -- Left and Right are two different names for the same shape;
+         a and b accept exactly the same documents</code></pre><p><b>Why <code>normalize</code> matters:</b> the schema above (<code>a</code>) carries dead weight — <code>Left</code> and <code>Right</code> are two spellings of one record. That's easy to end up with after independent authoring, or after <code>infer</code> (next step) drafts one record per sample instead of noticing the repeat. <code>normalize</code> collapses it to the canonical minimal form — same documents accepted, fewer records to maintain:</p><pre class="code"><code>a.normalize()</code></pre><div class="output-label">Output</div><pre class="output"><code>record Left {
+    &quot;x&quot;: string,
+    &quot;y&quot;: integer,
+}
+record Root {
+    &quot;a&quot;: Left,
+    &quot;b&quot;: Left,
+}
+root Root</code></pre><p><b>Why <code>extract</code> matters:</b> a shared schema often has more fields than any one consumer needs — a microservice reading only <code>host</code> shouldn't have to carry <code>port</code>'s validation rules too. <code>extract(*labels)</code> computes the minimal subschema recognizing only documents built from the kept labels, dropping anything the removal makes unreachable. Deleting a <i>mandatory</i> field is an error, not silently allowed:</p><pre class="code"><code>v2.extract(&quot;host&quot;)   # subschema with only &quot;host&quot; -- &quot;port&quot; dropped</code></pre><div class="output-label">Output</div><pre class="output"><code>record R {
     &quot;host&quot;: string,
 }
-root R</code></pre><p>A schema can also describe <b>no documents at all</b> — a mandatory reference cycle with no base case. <code>is_empty()</code> detects this; <code>prune()</code> strips never-emittable fields and unreachable records:</p><pre class="code"><code>empty = parse_schema(&#x27;record A { &quot;x&quot;: B }\nrecord B { &quot;y&quot;: A }\nroot A&#x27;)
+root R</code></pre><p><b>Why <code>is_empty</code>/<code>prune</code> matter:</b> a schema can accidentally describe <b>no documents at all</b> — a mandatory reference cycle with no base case, easy to introduce by typo in a large hand-written schema and very hard to spot by reading. <code>is_empty()</code> catches it before it ships; <code>prune()</code> strips never-emittable fields and unreachable records left over from other edits:</p><pre class="code"><code>empty = parse_schema(&#x27;record A { &quot;x&quot;: B }\nrecord B { &quot;y&quot;: A }\nroot A&#x27;)
 empty.is_empty()
 empty.compatible_with(v1)   # vacuous: an empty schema accepts no documents</code></pre><div class="output-label">Output</div><pre class="output"><code>is_empty: True
-empty.compatible_with(v1): True</code></pre><p><code>lint()</code> diagnoses a schema's own structural problems — unreachable or unsatisfiable records, structurally-duplicate records — without mutating anything:</p><pre class="code"><code>from omnist import lint
+empty.compatible_with(v1): True</code></pre><p><b>Why <code>lint</code> matters:</b> a pre-flight check for a schema you're about to ship or one a tool generated — the same duplication <code>normalize</code> fixes, flagged first without changing anything, so a CI gate can require a human look at it:</p><pre class="code"><code>from omnist import lint
 
 dup = parse_schema(&#x27;record A { &quot;x&quot;: string }\nrecord B { &quot;x&quot;: string }\n&#x27;
                     &#x27;record Root { &quot;a&quot;: A, &quot;b&quot;: B }\nroot Root&#x27;)

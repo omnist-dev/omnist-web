@@ -131,15 +131,28 @@ step("08-other-formats", "Reading and writing JSON, YAML, TOML, XML", "The other
 
 step("09-schema-algebra", "Schema algebra", "Six decidable operations over schemas — comparison, minimization, extraction.", "".join([
     p("Most schema tools check one document at a time. Omnist's algebra <b>compares two whole schemas</b> and proves the answer — decidable because a schema is a closed automaton, not a heuristic over examples."),
-    code('v1 = parse_schema(\'record R { "host": string }\\nroot R\')\nv2 = parse_schema(\'record R { "host": string, "port" [0,1]: integer }\\nroot R\')\n\nv1.compatible_with(v2)     # can readers of v2 still read v1\'s documents?\nv2.compatible_with(v1)     # the reverse -- v1 has no \'port\' field to require\nv1.equivalent(v2)          # same documents, different shape?\nv1.normalize()             # canonical minimal form'),
-    output("v1.compatible_with(v2): True\nv2.compatible_with(v1): False\nv1.equivalent(v2):      False"),
-    p("<code>extract(*labels)</code> computes the minimal subschema recognizing only documents built from the kept labels — dropping any field whose label isn't kept, and anything its removal makes unreachable. Deleting a <i>mandatory</i> field is an error, not silently allowed:"),
+
+    p("<b>Why <code>compatible_with</code> matters:</b> you're about to ship a schema change. Will every document ever written under the old schema still validate against the new one? That's not a question you want a reviewer guessing at — it's exactly what a CI gate can prove before merging:"),
+    code('v1 = parse_schema(\'record R { "host": string }\\nroot R\')\nv2 = parse_schema(\'record R { "host": string, "port" [0,1]: integer }\\nroot R\')\n\nv1.compatible_with(v2)     # can readers of v2 still read v1\'s documents?\nv2.compatible_with(v1)     # the reverse -- v1 has no \'port\' field to require'),
+    output("v1.compatible_with(v2): True   -- adding an optional field is backward compatible\nv2.compatible_with(v1): False  -- v1 can't produce the 'port' field v2 might require"),
+
+    p("<b>Why <code>equivalent</code> matters:</b> two schemas can describe the exact same set of documents while looking structurally nothing alike — different record names, different nesting, the same shape underneath. That happens constantly: two teams independently modeling the same data, or a refactor that reorganizes records without changing what they accept. <code>equivalent</code> answers \"did anything actually change?\" without a human eyeballing a diff:"),
+    code('a = parse_schema(\'record Left  { "x": string, "y": integer }\\n\'\n                  \'record Right { "x": string, "y": integer }\\n\'\n                  \'record Root  { "a": Left, "b": Right }\\nroot Root\')\nb = parse_schema(\'record Pair { "x": string, "y": integer }\\n\'\n                  \'record Root { "a": Pair, "b": Pair }\\nroot Root\')\n\na.equivalent(b)'),
+    output("True   -- Left and Right are two different names for the same shape;\n         a and b accept exactly the same documents"),
+
+    p("<b>Why <code>normalize</code> matters:</b> the schema above (<code>a</code>) carries dead weight — <code>Left</code> and <code>Right</code> are two spellings of one record. That's easy to end up with after independent authoring, or after <code>infer</code> (next step) drafts one record per sample instead of noticing the repeat. <code>normalize</code> collapses it to the canonical minimal form — same documents accepted, fewer records to maintain:"),
+    code("a.normalize()"),
+    output('record Left {\n    "x": string,\n    "y": integer,\n}\nrecord Root {\n    "a": Left,\n    "b": Left,\n}\nroot Root'),
+
+    p("<b>Why <code>extract</code> matters:</b> a shared schema often has more fields than any one consumer needs — a microservice reading only <code>host</code> shouldn't have to carry <code>port</code>'s validation rules too. <code>extract(*labels)</code> computes the minimal subschema recognizing only documents built from the kept labels, dropping anything the removal makes unreachable. Deleting a <i>mandatory</i> field is an error, not silently allowed:"),
     code('v2.extract("host")   # subschema with only "host" -- "port" dropped'),
     output('record R {\n    "host": string,\n}\nroot R'),
-    p("A schema can also describe <b>no documents at all</b> — a mandatory reference cycle with no base case. <code>is_empty()</code> detects this; <code>prune()</code> strips never-emittable fields and unreachable records:"),
+
+    p("<b>Why <code>is_empty</code>/<code>prune</code> matter:</b> a schema can accidentally describe <b>no documents at all</b> — a mandatory reference cycle with no base case, easy to introduce by typo in a large hand-written schema and very hard to spot by reading. <code>is_empty()</code> catches it before it ships; <code>prune()</code> strips never-emittable fields and unreachable records left over from other edits:"),
     code('empty = parse_schema(\'record A { "x": B }\\nrecord B { "y": A }\\nroot A\')\nempty.is_empty()\nempty.compatible_with(v1)   # vacuous: an empty schema accepts no documents'),
     output("is_empty: True\nempty.compatible_with(v1): True"),
-    p("<code>lint()</code> diagnoses a schema's own structural problems — unreachable or unsatisfiable records, structurally-duplicate records — without mutating anything:"),
+
+    p("<b>Why <code>lint</code> matters:</b> a pre-flight check for a schema you're about to ship or one a tool generated — the same duplication <code>normalize</code> fixes, flagged first without changing anything, so a CI gate can require a human look at it:"),
     code('from omnist import lint\n\ndup = parse_schema(\'record A { "x": string }\\nrecord B { "x": string }\\n\'\n                    \'record Root { "a": A, "b": B }\\nroot Root\')\nfor finding in lint(dup):\n    print(finding)'),
     output("LintFinding(code='lint.duplicate-record', severity='warning', location='A, B',\n            message=\"records 'B' are structurally identical to 'A'; merge them with `schema normalize`\")"),
     learn_more(
